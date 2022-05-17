@@ -1,0 +1,137 @@
+id: loop 
+title: "Lightning Loop"
+version: 0.18.0
+release-notes: "Upgrade to EmbassyOS v0.3.0"
+license: mit
+wrapper-repo: "https://github.com/Start9Labs/loop-wrapper"
+upstream-repo: "https://github.com/lightninglabs/loop"
+support-site: "https://github.com/lightninglabs/loop/issues"
+marketing-site: "https://lightning.engineering/"
+build: ["make"]
+description:
+  short: Lightning Loop - A Non-Custodial Off/On Chain Bridge 
+  long: |
+    Lightning Loop is a non-custodial service offered by Lightning Labs that makes it easy to move bitcoin into and out of the Lightning Network.
+assets:
+  license: LICENSE
+  icon: icon.png
+  instructions: docs/instructions.md
+  docker-images: image.tar
+main:
+  type: docker
+  image: main
+  entrypoint: "docker_entrypoint.sh"
+  args: []
+  mounts:
+    main: /root
+health-checks:
+  main:
+    name: Loop API
+    success-message: The Loop API is accessible and responding
+    type: docker
+    image: main
+    entrypoint: "check-web.sh"
+    args: []
+    inject: true
+    system: false
+    io-format: json
+config:
+  get:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - config
+      - get
+      - /root
+      - "/mnt/assets/config_spec.yaml"
+    mounts:
+      compat: /mnt/assets
+      main: /root
+    io-format: yaml
+  set:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - config
+      - set
+      - loop
+      - /root
+      - "/mnt/assets/config_rules.yaml"
+    mounts:
+      compat: /mnt/assets
+      main: /root
+    io-format: yaml
+volumes:
+  main:
+    type: data
+  compat:
+    type: assets 
+interfaces:
+  main:
+    name: Network Interface
+    description: Specifies the interface to listen on for HTTP connections.
+    tor-config:
+      port-mapping:
+        80: "80"
+    lan-config:
+      443:
+        ssl: true
+        internal: 80
+    ui: false
+    protocols:
+      - tcp
+      - http
+dependencies:
+  lnd:
+    version: ">=0.13.3.1 <0.15.0"
+    requirement:
+      type: "opt-in"
+      how: Optionally use LND for internal lightning network node implementation.
+    description: Used to communicate with the Lightning Network.
+    config: ~
+backup:
+  create:
+    type: docker
+    image: compat
+    system: true 
+    entrypoint: compat 
+    args: 
+      - duplicity
+      - create
+      - /mnt/backup
+      - /root/data
+    mounts:
+      BACKUP: "/mnt/backup" 
+      main: "/root/data"
+  restore:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - duplicity
+      - restore
+      - /root/data
+      - /mnt/backup
+    mounts:
+      BACKUP: "/mnt/backup"
+      main: "/root/data"
+actions:
+  loop-action:
+    name: Loop Action
+    description: A description that describes what the action will accomplish.
+    warning: |
+      A warning message indicating and potential dangers associated with the action
+    allowed-statuses:
+      - running
+    implementation:
+      type: docker
+      image: main
+      entrypoint: sh
+      args: ["-c", "echo 'loop'"]
+      inject: true
+      io-format: json
