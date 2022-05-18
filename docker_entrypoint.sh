@@ -4,6 +4,9 @@ _term() {
   echo "Caught SIGTERM signal!" 
   kill -TERM "$jm_process" 2>/dev/null
 }
+
+# Setting env-vars
+echo "Setting environment variables..."
 TOR_HOST=$(yq e '.tor-address' /root/start9/config.yaml)
 LAN_HOST=$(yq e '.lan-address' /root/start9/config.yaml)
 RPC_TYPE=$(yq e '.bitcoind.type' /root/start9/config.yaml)
@@ -29,10 +32,17 @@ sed -i "s/type = onion.*/a channel = joinmarket-pit/" /root/.joinmarket/joinmark
 sed -i "s/type = onion.*/a port = 9051/" /root/.joinmarket/joinmarket.cfg
 
 # Starting JoinMarket API
-echo "Starting JAM..."
+echo "Starting JoinMarket API..."
+mkdir -p ~/.joinmarket/ssl/
+cd /src/scripts/
+printf "JM\nYaad\nBabylon\nStart9\nServices\nDread\nNunya\n" | openssl req -newkey rsa:4096 -x509 -sha256 -days 3650 -nodes -out ~/.joinmarket/ssl/cert.pem -keyout ~/.joinmarket/ssl/key.pem
+printf "\n" | python jmwalletd.py & 
 
+# Starting JAM
+echo "Starting JAM..."
 cd /app
 serve --cors
+
 # Starting command line
 while true;
 do

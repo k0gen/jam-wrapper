@@ -9,11 +9,11 @@ COPY joinmarket-webui/ /joinmarket-webui
 
 # WORKDIR /joinmarket-clientserver/
 # RUN ./install.sh --docker-install --without-qt
-# WORKDIR /joinmarket-clientserver/scripts/
-WORKDIR /src/scripts/
-RUN mkdir -p ~/.joinmarket/ssl/
-RUN printf "JM\nYaad\nBabylon\nStart9\nServices\nDread\nNunya\n" | openssl req -newkey rsa:4096 -x509 -sha256 -days 3650 -nodes -out ~/.joinmarket/ssl/cert.pem -keyout ~/.joinmarket/ssl/key.pem
-RUN printf "\n" | python jmwalletd.py & 
+# # WORKDIR /joinmarket-clientserver/scripts/
+# WORKDIR /src/scripts/
+# RUN mkdir -p ~/.joinmarket/ssl/
+# RUN printf "JM\nYaad\nBabylon\nStart9\nServices\nDread\nNunya\n" | openssl req -newkey rsa:4096 -x509 -sha256 -days 3650 -nodes -out ~/.joinmarket/ssl/cert.pem -keyout ~/.joinmarket/ssl/key.pem
+# RUN printf "\n" | python jmwalletd.py & 
 
 WORKDIR /joinmarket-webui/
 RUN npm install --no-fund --no-audit && npm install -g serve && npm run build

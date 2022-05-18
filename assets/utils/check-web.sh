@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DURATION=$(</dev/stdin)
-if (($DURATION <= 15000)); then
+if (($DURATION <= 4000)); then
     echo "JAM Web UI may take a while to start, please be patient..."
     exit 60
 else
