@@ -1,0 +1,6 @@
+[submodule "joinmarket-webui"]
+	path = joinmarket-webui
+	url = https://github.com/joinmarket-webui/joinmarket-webui.git
+[submodule "joinmarket-clientserver"]
+	path = joinmarket-clientserver
+	url = https://github.com/JoinMarket-Org/joinmarket-clientserver.git

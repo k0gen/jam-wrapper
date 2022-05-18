@@ -1,17 +1,18 @@
-id: loop 
-title: "Lightning Loop"
-version: 0.18.0
-release-notes: "Upgrade to EmbassyOS v0.3.0"
+id: joinmarket-webui 
+title: JAM
+version: 0.0.5
+release-notes: Initial release for EmbassyOS v0.3.0.3
 license: mit
-wrapper-repo: "https://github.com/Start9Labs/loop-wrapper"
-upstream-repo: "https://github.com/lightninglabs/loop"
-support-site: "https://github.com/lightninglabs/loop/issues"
-marketing-site: "https://lightning.engineering/"
+wrapper-repo: "https://github.com/cryptodread/joinmarket-webui-wrapper"
+upstream-repo: "https://github.com/joinmarket-webui/joinmarket-webui"
+support-site: "https://github.com/joinmarket-webui/joinmarket-webui/issues"
+marketing-site: "https://t.me/JoinMarketWebUI"
 build: ["make"]
 description:
-  short: Lightning Loop - A Non-Custodial Off/On Chain Bridge 
+  short: JAM - A friendly UI for JoinMarket 
   long: |
-    Lightning Loop is a non-custodial service offered by Lightning Labs that makes it easy to move bitcoin into and out of the Lightning Network.
+    Jam is a web UI for JoinMarket with focus on user-friendliness. 
+    It aims to provide sensible defaults and be easy to use for beginners while still providing the features advanced users expect.
 assets:
   license: LICENSE
   icon: icon.png
@@ -26,8 +27,8 @@ main:
     main: /root
 health-checks:
   main:
-    name: Loop API
-    success-message: The Loop API is accessible and responding
+    name: JAM API
+    success-message: The JAM API is accessible and responding
     type: docker
     image: main
     entrypoint: "check-web.sh"
@@ -58,7 +59,7 @@ config:
     args:
       - config
       - set
-      - loop
+      - joinmarket-webui
       - /root
       - "/mnt/assets/config_rules.yaml"
     mounts:
@@ -72,27 +73,101 @@ volumes:
     type: assets 
 interfaces:
   main:
-    name: Network Interface
+    name: JoinMarket Web UI
     description: Specifies the interface to listen on for HTTP connections.
     tor-config:
       port-mapping:
-        80: "80"
+        80: "3000"
     lan-config:
       443:
         ssl: true
-        internal: 80
-    ui: false
+        internal: 3000
+    ui: true
     protocols:
       - tcp
       - http
-dependencies:
-  lnd:
-    version: ">=0.13.3.1 <0.15.0"
+dependencies: 
+  bitcoind:
+    version: ">=0.21.1.2 <=23.0.0"
+    requirement:
+      type: "opt-out"
+      how: Can alternatively configure proxy or bitcoin core  node.
+    description: Used to subscribe to new block events from a full archival node.
+    config:
+      check: 
+        type: docker
+        image: compat
+        system: true
+        entrypoint: compat
+        args:
+          - dependency
+          - check
+          - joinmarket-webui
+          - bitcoind
+          - /root
+          - "/mnt/assets/bitcoind_config_rules.yaml"
+        mounts:
+          compat: /mnt/assets
+          main: /root
+        io-format: yaml
+      auto-configure:
+        type: docker
+        image: compat
+        system: true
+        entrypoint: compat
+        args:
+          - dependency
+          - "auto-configure"
+          - "joinmarket-webui"
+          - bitcoind
+          - /root
+          - "/mnt/assets/bitcoind_config_rules.yaml"
+        mounts:
+          compat: /mnt/assets
+          main: /root
+        io-format: yaml
+  btc-rpc-proxy:
+    version: ">=0.3.2.1 <0.4.0"
     requirement:
       type: "opt-in"
-      how: Optionally use LND for internal lightning network node implementation.
-    description: Used to communicate with the Lightning Network.
-    config: ~
+      how: Can alternatively configure proxy or bitcoin core  node.
+    description: Used for RPC permissioning.
+    config:
+      check:
+        type: docker
+        image: compat
+        system: true
+        entrypoint: compat
+        args:
+          - dependency
+          - check
+          - joinmarket-webui
+          - "btc-rpc-proxy"
+          - /root
+          - "/mnt/assets/btc-rpc-proxy_config_rules.yaml"
+        mounts:
+          main: /root
+          compat: /mnt/assets
+        io-format: yaml
+      auto-configure:
+        type: docker
+        image: compat
+        system: true
+        entrypoint: compat
+        args:
+          - dependency
+          - "auto-configure"
+          - joinmarket-webui
+          - "btc-rpc-proxy"
+          - /root
+          - "/mnt/assets/btc-rpc-proxy_config_rules.yaml"
+        mounts:
+          main: /root
+          compat: /mnt/assets
+        io-format: yaml
+alerts:
+  start: |
+    READ CAREFULLY! This is still work in progress. Use with caution. 
 backup:
   create:
     type: docker
@@ -120,18 +195,3 @@ backup:
     mounts:
       BACKUP: "/mnt/backup"
       main: "/root/data"
-actions:
-  loop-action:
-    name: Loop Action
-    description: A description that describes what the action will accomplish.
-    warning: |
-      A warning message indicating and potential dangers associated with the action
-    allowed-statuses:
-      - running
-    implementation:
-      type: docker
-      image: main
-      entrypoint: sh
-      args: ["-c", "echo 'loop'"]
-      inject: true
-      io-format: json
