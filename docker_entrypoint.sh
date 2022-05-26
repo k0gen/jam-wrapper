@@ -27,9 +27,9 @@ sed -i "s/rpc_host = localhost.*/rpc_host = $RPC_HOST/" /root/.joinmarket/joinma
 sed -i "s/rpc_password = password.*/rpc_password = $RPC_PASS/" /root/.joinmarket/joinmarket.cfg
 sed -i "s/rpc_port =.*/rpc_port = $RPC_PORT/" /root/.joinmarket/joinmarket.cfg
 sed -i "s/tor_control_host = localhost/tor_control_host = $TOR_HOST/" /root/.joinmarket/joinmarket.cfg
-sed -i "s/type = onion.*/a host = $TOR_HOST/" /root/.joinmarket/joinmarket.cfg
-sed -i "s/type = onion.*/a channel = joinmarket-pit/" /root/.joinmarket/joinmarket.cfg
-sed -i "s/type = onion.*/a port = 9051/" /root/.joinmarket/joinmarket.cfg
+sed -i "/type = onion.*/a host = $TOR_HOST" /root/.joinmarket/joinmarket.cfg
+sed -i "/type = onion.*/a channel = joinmarket-pit" /root/.joinmarket/joinmarket.cfg
+sed -i "/type = onion.*/a port = 9051" /root/.joinmarket/joinmarket.cfg
 
 # Starting JoinMarket API
 echo "Starting JoinMarket API..."

@@ -67,6 +67,16 @@ git submodule update --init --recursive
 
 To build the project, run the following commands:
 
+
+
+```
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+docker buildx create --name multiarch --driver docker-container --use
+docker buildx inspect --bootstrap
+```
+
+You should only run the above commands once to create a custom builder. Afterwards you will only need the below command to make the .s9pk file
+
 ```
 make
 ```
