@@ -167,7 +167,7 @@ dependencies:
         io-format: yaml
 alerts:
   start: |
-    READ CAREFULLY! This is still work in progress. Use with caution. 
+    READ CAREFULLY! This is still ALPHA software, and there is still work in progress. Use with caution. 
 backup:
   create:
     type: docker

@@ -16,6 +16,11 @@ lan-address:
   package-id: joinmarket-webui
   target: lan-address
   interface: main
+jm_wallet:
+  type: string
+  name: JAM Wallet Name
+  description: Name of Bitcoin Core Wallet created for JAM
+  nullable: false
 bitcoind:
   type: union
   name: Bitcoin Core
