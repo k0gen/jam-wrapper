@@ -56,7 +56,8 @@ echo "Creating JAM Wallet..."
 
 # Starting JAM
 echo "Starting JAM..."
-# serve --cors --symlinks 
+cd /app
+#http-server --cors --port 3000 -b joinmarket-webui.embassy
 
 # Starting command line
 while true;
