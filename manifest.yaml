@@ -88,10 +88,18 @@ interfaces:
     tor-config:
       port-mapping:
         80: "3000"
+        28183: "28183"
+        27183: "27183"
     lan-config:
       443:
         ssl: true
         internal: 3000
+      28183:
+        ssl: true
+        internal: 28183
+      27183:
+        ssl: true
+        internal: 27183
     ui: true
     protocols:
       - tcp
