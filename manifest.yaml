@@ -27,11 +27,21 @@ main:
     main: /root
 health-checks:
   main:
+    name: JAM UI
+    success-message: The JAM UI is accessible and responding
+    type: docker
+    image: main
+    entrypoint: "check-web.sh"
+    args: []
+    inject: true
+    system: false
+    io-format: json
+  api:
     name: JAM API
     success-message: The JAM API is accessible and responding
     type: docker
     image: main
-    entrypoint: "check-web.sh"
+    entrypoint: "check-api.sh"
     args: []
     inject: true
     system: false
