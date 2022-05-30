@@ -21,7 +21,7 @@ assets:
 main:
   type: docker
   image: main
-  entrypoint: "docker_entrypoint.sh"
+  entrypoint: "jmwebui-entrypoint.sh"
   args: []
   mounts:
     main: /root
@@ -33,7 +33,6 @@ health-checks:
     image: main
     entrypoint: "check-web.sh"
     args: []
-    inject: true
     system: false
     io-format: json
   api:
@@ -43,7 +42,6 @@ health-checks:
     image: main
     entrypoint: "check-api.sh"
     args: []
-    inject: true
     system: false
     io-format: json
 config:
