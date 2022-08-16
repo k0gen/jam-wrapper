@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -ea 
 
@@ -47,8 +47,8 @@ curl -sS --user $RPC_USER:$RPC_PASS --data-binary '{"jsonrpc": "1.0", "id": "wal
 
 # Starting JoinMarket API
 echo "Starting JoinMarket API..."
-cd /src/scripts/
-printf "\n" | python jmwalletd.py &
+# cd /src/scripts/
+# printf "\n" | python jmwalletd.py &
 
 # Creating JAM wallet
 echo "Creating JAM Wallet..."
@@ -56,15 +56,15 @@ echo "Creating JAM Wallet..."
 
 # Starting JAM
 echo "Starting JAM..."
-cd /app
+# cd /app
 # http-server --cors --port 3000 -a jam.embassy
 
 
 # Starting command line
-while true;
-do
-sleep 2000;
-done
+# while true;
+# do
+# sleep 2000;
+# done
 
 trap _term SIGTERM
 wait -n $jm_process

@@ -5,7 +5,7 @@ tor-address:
   description: The Tor address for the network interface. 
   type: pointer
   subtype: package
-  package-id: joinmarket-webui
+  package-id: jam
   target: tor-address
   interface: main
 lan-address:
@@ -13,7 +13,7 @@ lan-address:
   description: The LAN address for the network interface. 
   type: pointer
   subtype: package
-  package-id: joinmarket-webui
+  package-id: jam
   target: lan-address
   interface: main
 jm-wallet:
@@ -65,7 +65,7 @@ bitcoind:
         package-id: btc-rpc-proxy
         target: config
         multi: false
-        selector: '$.users.[?(@.name == "joinmarket-webui")].name'
+        selector: '$.users.[?(@.name == "jam")].name'
       password:
         type: pointer
         name: RPC Password
@@ -74,4 +74,4 @@ bitcoind:
         package-id: btc-rpc-proxy
         target: config
         multi: false
-        selector: '$.users.[?(@.name == "joinmarket-webui")].password'
+        selector: '$.users.[?(@.name == "jam")].password'
