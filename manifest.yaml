@@ -1,11 +1,11 @@
-id: joinmarket-webui 
+id: jam 
 title: JAM
-version: 0.0.6
-release-notes: Initial release for EmbassyOS v0.3.0.3
+version: 0.0.10
+release-notes: Initial release to Embassy
 license: mit
-wrapper-repo: "https://github.com/cryptodread/joinmarket-webui-wrapper"
-upstream-repo: "https://github.com/joinmarket-webui/joinmarket-webui"
-support-site: "https://github.com/joinmarket-webui/joinmarket-webui/issues"
+wrapper-repo: "https://github.com/cryptodread/jam-wrapper"
+upstream-repo: "https://github.com/jam/jam-docker"
+support-site: "https://github.com/jam/jam-docker/issues"
 marketing-site: "https://t.me/JoinMarketWebUI"
 build: ["make"]
 description:
@@ -21,7 +21,7 @@ assets:
 main:
   type: docker
   image: main
-  entrypoint: "jmwebui-entrypoint.sh"
+  entrypoint: "docker-entrypoint.sh"
   args: []
   mounts:
     main: /root
@@ -67,7 +67,7 @@ config:
     args:
       - config
       - set
-      - joinmarket-webui
+      - jam
       - /root
       - "/mnt/assets/config_rules.yaml"
     mounts:
@@ -118,7 +118,7 @@ dependencies:
         args:
           - dependency
           - check
-          - joinmarket-webui
+          - jam
           - bitcoind
           - /root
           - "/mnt/assets/bitcoind_config_rules.yaml"
@@ -134,7 +134,7 @@ dependencies:
         args:
           - dependency
           - "auto-configure"
-          - "joinmarket-webui"
+          - jam
           - bitcoind
           - /root
           - "/mnt/assets/bitcoind_config_rules.yaml"
@@ -157,7 +157,7 @@ dependencies:
         args:
           - dependency
           - check
-          - joinmarket-webui
+          - jam
           - "btc-rpc-proxy"
           - /root
           - "/mnt/assets/btc-rpc-proxy_config_rules.yaml"
@@ -173,7 +173,7 @@ dependencies:
         args:
           - dependency
           - "auto-configure"
-          - joinmarket-webui
+          - jam
           - "btc-rpc-proxy"
           - /root
           - "/mnt/assets/btc-rpc-proxy_config_rules.yaml"

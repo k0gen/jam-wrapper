@@ -1,6 +1,6 @@
-# Wrapper for joinmarket-webui
+# Wrapper for JAM
 
-`joinmarket-webui` Jam is a web UI for JoinMarket with focus on user-friendliness. It aims to provide sensible defaults and be easy to use for beginners while still providing the features advanced users expect.
+JAM is a web UI for JoinMarket with focus on user-friendliness. It aims to provide sensible defaults and be easy to use for beginners while still providing the features advanced users expect.
 
 ## Dependencies
 
@@ -59,8 +59,8 @@ cd embassy-os/backend/
 Clone the project locally. Note the submodule link to the original project(s). 
 
 ```
-git clone https://github.com/Start9Labs/joinmarket-webui-wrapper.git
-cd joinmarket-webui-wrapper
+git clone https://github.com/Start9Labs/jam-wrapper.git
+cd jam-wrapper
 git submodule update --init --recursive
 ```
 ## Building
@@ -90,7 +90,7 @@ Run the following command to install the package:
 ```
 embassy-cli auth login
 #Enter your embassy password then run:
-embassy-cli package install /path/to/joinmarket-webui.s9pk
+embassy-cli package install /path/to/jam.s9pk
 ```
 ## Verify Install
 

@@ -18,7 +18,7 @@ export RPC_USER=$(yq e '.bitcoind.user' /root/start9/config.yaml)
 export RPC_PASS=$(yq e '.bitcoind.password' /root/start9/config.yaml)
 export RPC_PORT=8332
 export JM_WALLET=$(yq e '.jm-wallet' /root/start9/config.yaml)
-export JM_HOST="joinmarket-webui.embassy"
+export JM_HOST="jam.embassy"
 if [ "$RPC_TYPE" = "internal-proxy" ]; then
 	export RPC_HOST="btc-rpc-proxy.embassy"
 	echo "Running on Bitcoin Proxy..."
@@ -57,7 +57,7 @@ echo "Creating JAM Wallet..."
 # Starting JAM
 echo "Starting JAM..."
 cd /app
-# http-server --cors --port 3000 -a joinmarket-webui.embassy
+# http-server --cors --port 3000 -a jam.embassy
 
 
 # Starting command line
