@@ -3,6 +3,8 @@ RUN apt-get update && apt-get install -qq --no-install-recommends wget bash
 RUN wget https://github.com/mikefarah/yq/releases/download/v4.12.2/yq_linux_arm.tar.gz -O - |\
       tar xz && mv yq_linux_arm /usr/bin/yq
 
+USER root
+
 ENV DATADIR /root/.joinmarket
 ENV CONFIG ${DATADIR}/joinmarket.cfg
 ENV DEFAULT_CONFIG /root/default.cfg
@@ -14,10 +16,12 @@ ENV JM_RPC_USER="bitcoin"
 ENV JM_RPC_PASSWORD=
 ENV APP_USER "joinmarket"
 ENV APP_PASSWORD "joinmarket"
-ENV PATH="/src/scripts:${PATH}"
 ENV JMWEBUI_JMWALLETD_HOST "jam.embassy"
 ENV JMWEBUI_JMWALLETD_API_PORT "28183"
 ENV JMWEBUI_JMWALLETD_WEBSOCKET_PORT "28283"
+
+RUN mkdir -p /usr/local/bin/
+ENV PATH="/usr/local/bin/:${PATH}"
 
 ADD ./docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
 ADD assets/utils/check-web.sh /usr/local/bin/check-web.sh
