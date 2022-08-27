@@ -20,15 +20,10 @@ ENV JMWEBUI_JMWALLETD_HOST "jam.embassy"
 ENV JMWEBUI_JMWALLETD_API_PORT "28183"
 ENV JMWEBUI_JMWALLETD_WEBSOCKET_PORT "28283"
 
-RUN mkdir -p /usr/local/bin/
-ENV PATH="/usr/local/bin/:${PATH}"
-
-ADD ./docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
+ADD docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
 ADD assets/utils/check-web.sh /usr/local/bin/check-web.sh
 ADD assets/utils/check-api.sh /usr/local/bin/check-api.sh
-RUN chmod a+x /usr/local/bin/docker_entrypoint.sh
-RUN chmod +x /usr/local/bin/check-web.sh
-RUN chmod +x /usr/local/bin/check-api.sh
+RUN chmod a+x /usr/local/bin/*.sh
 
 EXPOSE 80 28183 27183 8080 3000
 
